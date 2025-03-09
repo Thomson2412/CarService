@@ -1,8 +1,11 @@
 package com.soloheisbeer.carservice.utilities
-
 import com.topjohnwu.superuser.Shell
+import com.topjohnwu.superuser.nio.ExtendedFile
 
 object Gpio {
+    private val tag = Gpio::class.java.simpleName
+
+    private lateinit var pwmChipDir: ExtendedFile
 
     fun setGpio(pin: Int, value: Int) {
         Shell.cmd("su -c gpioset gpiochip0 $pin=$value").exec()

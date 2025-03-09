@@ -12,6 +12,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.soloheisbeer.carservice.databinding.ActivityMainBinding
+import com.soloheisbeer.carservice.services.BrightnessService
+import com.soloheisbeer.carservice.services.FanService
 import com.soloheisbeer.carservice.services.RestartServiceWorker
 import com.soloheisbeer.carservice.services.ShutdownService
 import com.topjohnwu.superuser.Shell
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Shell.enableVerboseLogging = true
+        Shell.enableVerboseLogging = false
         Shell.setDefaultBuilder(
             Shell.Builder.create()
                 .setFlags(Shell.FLAG_MOUNT_MASTER)
@@ -54,8 +56,9 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        val intent = Intent(this, ShutdownService::class.java)
-        startService(intent)
+        startService(Intent(this, ShutdownService::class.java))
+        startService(Intent(this, FanService::class.java))
+        startService(Intent(this, BrightnessService::class.java))
 
         RestartServiceWorker.startWorker(this)
     }

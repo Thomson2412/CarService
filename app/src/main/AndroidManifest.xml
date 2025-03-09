@@ -17,7 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CarService"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="31">
+        tools:targetApi="35">
+
+        <receiver android:name=".receivers.BootReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".services.ShutdownService"
@@ -27,6 +33,22 @@
                 android:value="monitor_gpio"/>
         </service>
 
+        <service
+            android:name=".services.BrightnessService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="monitor_brightness"/>
+        </service>
+
+        <service
+            android:name=".services.FanService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="monitor_temp"/>
+        </service>
+        
         <activity
             android:name=".MainActivity"
             android:exported="true">
